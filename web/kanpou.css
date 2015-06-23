@@ -1,0 +1,40 @@
+div.item_date {
+	float:left;
+	width:100px;
+	font-size: small;
+}
+
+div.item_title {
+	float:left;
+	width:480px;
+	font-size: small;
+}
+
+div.article_sep{
+        clear:both;
+}
+
+
+div.item_pdf{
+	float:left;
+	width:160px;
+	font-size: small;
+	text-align:right;
+	margin-right:5px
+}
+
+div.item_even {
+	height:auto;
+	margin-top: 5px;
+	padding:2px;
+	clear:both;
+	background-color:#ffddff;
+}
+
+div.item_odd{
+	height:auto;
+	margin-top: 5px;
+	padding:2px;
+	clear:both;
+	background-color:#ffffff;
+}

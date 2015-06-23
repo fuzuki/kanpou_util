@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="./kanpou.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="./jquery-2.1.3.min.js"></script>
+<script type="text/javascript">
+
+function set_list(data){
+	var list_str = '';
+	for(var i = 0 ; i < data.length ; i++){
+		var item_class = "item_odd";
+		if((i%2)==0){
+			item_class = "item_even"
+		}
+		var date = data[i][0].match(/^(20\d\d[012]\d[0123]\d)([a-z])/)
+		list_str += '<div id="kanpouitem' + i + '" class="' + item_class + '">'
+		list_str += '<div class="item_date">' + date[1] + '&nbsp;</div>';
+		list_str += '<div class="item_title">'
+			+ data[i][1] + '&nbsp;</div>';
+		list_str += '<div class="item_pdf"><a href="./kanpou/'
+			+ data[i][0] + '">' + data[i][0]  + '</a></div>';
+		list_str += '&nbsp;<div class="article_sep"></div></div>';
+	}
+	$('#kanpouList').html(list_str);
+}
+
+$(function(){
+        $('#showlist').click(function(){
+		var m_str = $('#m_select').val();
+		var w_str = $('#word').val();
+                var url = "kanpou_list.rb?month="+m_str+"&word="+w_str;
+                $.getJSON(url,function(data){
+                        set_list(data,false);
+                });
+		$('#word').val("");
+        });
+});
+
+
+$(function(){
+	$('#m_select').change(function(){
+		//change list
+		var m_str = $('#m_select').val();
+		var url = "kanpou_list.rb?month="+m_str;
+		$.getJSON(url,function(data){
+			set_list(data,false);
+			
+		});
+	});
+});
+
+
+function init(){
+	var now = new Date();
+	var y = now.getFullYear();
+	var m = now.getMonth() + 1;
+
+	if( m < 10 ){
+		m = '0' + m;
+	}
+	$('#m_select').val(y + "-" + m);
+	var url = "kanpou_list.rb?month=" + y + "-" + m;
+	$.getJSON(url,function(data){
+		set_list(data);
+	});
+}
+
+</script>
+<title>kanpou</title>
+</head>
+<body onload="init()">
+<div id="month">
+<p>
+<input type="month" id="m_select">
+<input type="text" id="word">
+<input type="button" value="表示" id="showlist">
+</p>
+</div>
+
+<div id="kanpouList"></div>
+
+</body>
+</html>
